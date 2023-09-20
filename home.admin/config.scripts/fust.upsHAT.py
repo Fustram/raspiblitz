@@ -203,7 +203,7 @@ if __name__=='__main__':
     status = ""
     if(current < 0):status = "ONBATT"
     if(current > 0):status = "ONLINE"
-    if(p < 50):status = "SHUTDOWN"
+    if(p < 50):status = "SHUTTING DOWN"
 
     print("{},{:3.1f}%".format(status,p))
     
