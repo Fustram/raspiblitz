@@ -201,8 +201,9 @@ if __name__=='__main__':
     if(p > 100):p = 100
     if(p < 0):p = 0
     status = ""
-    if current < 0:status = "ONBATT"
-    if current > 0:status = "ONLINE"
+    if(current < 0):status = "ONBATT"
+    if(current > 0):status = "ONLINE"
+    if(p < 50):status = "SHUTDOWN"
 
     print("{},{:3.1f}%".format(status,p))
     
