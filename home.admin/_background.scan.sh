@@ -198,6 +198,9 @@ do
     source <(/home/admin/config.scripts/blitz.ups.sh status)
     /home/admin/_cache.sh set system_ups_status "${upsStatus}"
     /home/admin/_cache.sh set system_ups_battery "${upsBattery}"
+    if ["${upsStatus}" == "SHUTTING DOWN"]; then
+      sudo /home/admin/config.scripts/blitz.shutdown.sh
+    fi
   fi
 
   #################
