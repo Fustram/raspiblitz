@@ -8,6 +8,7 @@ if [ $# -eq 0 ] || [ "$1" = "-h" ] || [ "$1" = "-help" ]; then
  echo "Configure a UPS (Uninterruptible Power Supply)"
  echo "blitz.ups.sh on apcusb"
  echo "blitz.ups.sh on x708"
+ echo "blitz.ups.sh on upsHAT"
  echo "blitz.ups.sh status"
  echo "blitz.ups.sh off"
  exit 1
@@ -80,6 +81,26 @@ if [ "$1" = "1" ] || [ "$1" = "on" ]; then
     echo "OK - X708 UPS HAT is now connected"
     echo "Please, perform restart to apply changes."
 
+  elif [ "$2" = "upsHAT" ]; then
+
+    # MODEL: UPS HAT For Raspberry Pi, 5V Uninterruptible Power Supply, Multi Battery Protection Circuits.
+
+    # enable I2C interface
+    sudo raspi-config nonint do_i2c 0
+
+    # install prerequisites
+    sudo apt-get install -y python3-smbus i2c-tools
+
+    # copy the upsHAT script to specific folder
+    mkdir /home/admin/upsHAT
+    cp -f /home/raspiblitz/config.scripts/fust.upsHAT.py /home/admin/upsHAT
+    
+    # set ups config value (in case of update)
+    /home/admin/config.scripts/blitz.conf.sh set ups "upsHAT"
+
+    echo "OK - UPS HAT is now connected"
+    echo "Please, perform restart to apply changes."
+
   else
     echo "FAIL: unknown or missing second parameter 'UPSTYPE'"
     exit 1
@@ -127,6 +148,22 @@ if [ "$1" = "status" ]; then
       fi
     fi
     exit 0
+
+  # define here pls:
+  elif [ "${ups}" = "upsHAT" ]; then
+    info=$(python3 /home/admin/upsHAT/fust.upsHAT.py)
+    status=$(echo $info | cut -d "," -f1)
+    if [ ${#status} -eq 0 ]; then
+      echo "upsStatus='n/a'"
+    else
+      echo "upsStatus='${status}'"
+      # get battery level if possible
+      if [ "${status}" = "ONLINE" ] || [ "${status}" = "ONBATT" ]; then
+        battery=$(echo $info | cut -d "," -f2)
+        echo "upsBattery='${battery}'"
+      fi
+    fi
+    exit 0
     
   else
     echo "upsStatus='CONFIG'"
@@ -157,6 +194,12 @@ if [ "$1" = "0" ] || [ "$1" = "off" ]; then
 
   elif [ "${ups}" = "x708" ]; then
     sudo bash /home/admin/x708blitz/uninstall.sh
+    sudo raspi-config nonint do_i2c 1
+    sudo apt-get remove -y python3-smbus i2c-tools
+    /home/admin/config.scripts/blitz.conf.sh set ups "off"
+
+  elif [ "${ups}" = "upsHAT" ]; then
+    rm -r /home/admin/upsHAT/
     sudo raspi-config nonint do_i2c 1
     sudo apt-get remove -y python3-smbus i2c-tools
     /home/admin/config.scripts/blitz.conf.sh set ups "off"
