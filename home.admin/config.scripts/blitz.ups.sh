@@ -151,7 +151,7 @@ if [ "$1" = "status" ]; then
 
   # define here pls:
   elif [ "${ups}" = "upsHAT" ]; then
-    info=$(python3 /home/admin/upsHAT/fust.upsHAT.py)
+    info=$(sudo python3 /home/admin/upsHAT/fust.upsHAT.py)
     status=$(echo $info | cut -d "," -f1)
     if [ ${#status} -eq 0 ]; then
       echo "upsStatus='n/a'"
