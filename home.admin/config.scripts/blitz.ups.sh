@@ -93,7 +93,7 @@ if [ "$1" = "1" ] || [ "$1" = "on" ]; then
 
     # copy the upsHAT script to specific folder
     mkdir /home/admin/upsHAT
-    cp -f /home/raspiblitz/config.scripts/fust.upsHAT.py /home/admin/upsHAT
+    cp -f /home/admin/config.scripts/fust.upsHAT.py /home/admin/upsHAT
     
     # set ups config value (in case of update)
     /home/admin/config.scripts/blitz.conf.sh set ups "upsHAT"
