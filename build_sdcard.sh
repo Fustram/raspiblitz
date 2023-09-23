@@ -34,7 +34,7 @@ Options:
   -f, --fatpack [0|1]                      fatpack mode (default: 1)
   -u, --github-user [raspiblitz|other]     github user to be checked from the repo (default: ${defaultRepo})
   -b, --branch [v1.9|v1.10]                branch to be built on (default: ${defaultBranch})
-  -d, --display [lcd|hdmi|headless]        display class (default: hdmi)
+  -d, --display [lcd|hdmi|headless]        display class (default: headless)
   -t, --tweak-boot-drive [0|1]             tweak boot drives (default: 1)
   -w, --wifi-region [off|US|GB|other]      wifi iso code (default: US) or 'off'
 
@@ -205,8 +205,8 @@ curl --header "X-GitHub-Api-Version:2022-11-28" -s "https://api.github.com/repos
 
 # DISPLAY-CLASS
 # ----------------------------------------
-# Could be 'hdmi', 'headless' or 'lcd' (hdmi is default)
-: "${display:=hdmi}"
+# Could be 'hdmi', 'headless' or 'lcd' (headless is default)
+: "${display:=headless}"
 range_argument display "lcd" "hdmi" "headless"
 
 # TWEAK-BOOTDRIVE
