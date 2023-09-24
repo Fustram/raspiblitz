@@ -201,11 +201,11 @@ if __name__=='__main__':
     if(p > 100):p = 100
     if(p < 0):p = 0
     status = ""
-    if(current < 0):status = "ONBATT"
-    if(current > 0):status = "ONLINE"
+    if(current/1000 < -0.2):status = "ONBATT"
+    if(current/1000 > -0.2):status = "ONLINE"
     if(p < 50):status = "SHUTTING DOWN"
 
-    print("{},{:3.1f}%".format(status,p))
+    print("{},{:3.1f}%,{:6.3f}A,{:6.3f}V".format(status,p,current/1000,bus_voltage))
     
     #ORIGINAL
     # INA219 measure bus voltage on the load side. So PSU voltage = bus_voltage + shunt_voltage
