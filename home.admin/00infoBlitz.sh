@@ -67,15 +67,19 @@ if [ "${netprefix}" == "m" ]; then
 fi
 
 ## get UPS info
-upsInfo=""
+upsStatus=""
+upsBatt=""
 if [ "${system_ups_status}" = "ONLINE" ]; then
+  upsStatus="${color_gray}${system_ups_status}"
   upsInfo="${color_gray}${system_ups_battery}"
 fi
 if [ "${system_ups_status}" = "ONBATT" ]; then
+  upsStatus="${color_gray}${system_ups_status}"
   upsInfo="${color_red}${system_ups_battery}"
 fi
 if [ "${system_ups_status}" = "SHUTTING DOWN" ]; then
-  upsInfo="${color_red}DOWN"
+  upsStatus="${color_gray}${system_ups_status}"
+  upsInfo="${color_red}${system_ups_battery}"
 fi
 
 # check hostname
@@ -321,7 +325,7 @@ printf "
 ${color_yellow}
 ${color_yellow}
 ${color_yellow}
-${color_yellow}               ${color_amber}%s ${color_green} ${ln_alias} ${upsInfo}
+${color_yellow}               ${color_amber}%s ${color_green} ${ln_alias} ${upsStatus} ${upsInfo}%%
 ${color_yellow}               ${color_gray}${network^} Fullnode${LNinfo} ${torInfo}
 ${color_yellow}        ,/     ${color_yellow}%s
 ${color_yellow}      ,'/      ${color_gray}%s
