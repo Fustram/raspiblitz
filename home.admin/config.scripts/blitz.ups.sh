@@ -149,7 +149,7 @@ if [ "$1" = "status" ]; then
     fi
     exit 0
 
-  # define here pls:
+  # upsHAT:
   elif [ "${ups}" = "upsHAT" ]; then
     info=$(sudo python3 /home/admin/upsHAT/fust.upsHAT.py)
     status=$(echo $info | cut -d "," -f1)
@@ -158,8 +158,9 @@ if [ "$1" = "status" ]; then
     else
       echo "upsStatus='${status}'"
       # get battery level if possible
-      if [ "${status}" = "ONLINE" ] || [ "${status}" = "ONBATT" ]; then
+      if [ "${status}" = "ONLINE" ] || [ "${status}" = "ONBATT" ] || [ "${status}" = "SHUTTING DOWN" ]; then
         battery=$(echo $info | cut -d "," -f2)
+		      battery=$(echo $battery | cut -d "%" -f1)
         echo "upsBattery='${battery}'"
       fi
     fi
